@@ -17,7 +17,6 @@ app.post("/entry-sign-out", async (req, res) => {
 	const maxMinutes = envoy.meta.config.MAXMINUTES
 	const visitor = envoy.payload
 	const visitorName = visitor.attributes["full-name"]
-
 	const message = `${goodbye} ${visitorName}!`
 	await job.attach({ label: "Goodbye", value: message })
 
@@ -26,6 +25,6 @@ app.post("/entry-sign-out", async (req, res) => {
 
 app.use(errorMiddleware())
 
-const listener = app.listen(process.env.PORT || 3000, () => {
+const listener = app.listen(process.env.PORT || 5000, () => {
 	console.log(`Listening on port ${listener.address().port}`)
 })
