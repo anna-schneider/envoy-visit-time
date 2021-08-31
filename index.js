@@ -12,7 +12,7 @@ app.post("/max-minutes-validation", (req, res) => {
 		},
 	])
 
-	console.log(request.envoy.meta.config.maxMinutes)
+	console.log(req.envoy.meta.config.maxMinutes)
 })
 
 app.post("/entry-sign-out", async (req, res) => {
