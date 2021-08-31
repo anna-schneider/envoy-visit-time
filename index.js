@@ -1,5 +1,6 @@
 const express = require("express")
 const { middleware, errorMiddleware } = require("@envoy/envoy-integrations-sdk")
+require("dotenv").config() // For testing/development only
 
 const app = express()
 app.use(middleware())
@@ -32,6 +33,12 @@ app.post("/entry-sign-out", async (req, res) => {
 
 	res.send({ message })
 })
+
+//https://github.com/envoy/envoy-integrations-sdk-nodejs
+//The documentation indicates that only requests made via Envoy as an origin would be accepted,
+//so as a result I was unsure of how to test the visitor-sign-out endpoint. That said, using the
+//"goodbye" example as a frame of reference for UTC conversion, this is how I imagine to the best of my ability
+//that the request would be done outside of having an authenticated sample Envoy request to work with.
 
 app.use(
 	errorMiddleware((err) => {
