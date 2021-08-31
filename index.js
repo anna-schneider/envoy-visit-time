@@ -4,7 +4,7 @@ const { middleware, errorMiddleware } = require("@envoy/envoy-integrations-sdk")
 const app = express()
 app.use(middleware())
 //validate "validations"
-app.post("/max-minutes-validations", (req, res) => {
+app.post("/max-minutes-validation", (req, res) => {
 	console.log(JSON.stringify(req, null, 4))
 	res.send([
 		{
@@ -28,7 +28,11 @@ app.post("/entry-sign-out", async (req, res) => {
 	res.send({ goodbye })
 })
 
-app.use(errorMiddleware())
+app.use(
+	errorMiddleware((err) => {
+		console.log(err)
+	})
+)
 
 const listener = app.listen(process.env.PORT || 5000, () => {
 	console.log(`Listening on port ${listener.address().port}`)
