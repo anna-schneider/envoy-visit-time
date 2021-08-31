@@ -30,7 +30,7 @@ app.post("/entry-sign-out", async (req, res) => {
 
 app.use(
 	errorMiddleware((err) => {
-		console.log(err)
+		console.log(err.message)
 	})
 )
 
