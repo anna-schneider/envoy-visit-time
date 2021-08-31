@@ -5,7 +5,7 @@ const app = express()
 app.use(middleware())
 //validate "validations"
 app.post("/max-minutes-validation", (req, res) => {
-	res.status(400).send({ message: "You done messed up now" })
+	res.status(400).send({ error: "You done messed up now" })
 	// res.send({ maxMinutes: req.envoy.payload.maxMessage })
 	// console.log(req.envoy.payload.maxMinutes)
 })
