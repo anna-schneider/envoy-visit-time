@@ -3,7 +3,7 @@ const { middleware, errorMiddleware } = require("@envoy/envoy-integrations-sdk")
 
 const app = express()
 app.use(middleware())
-//validate "validations"
+
 app.post("/max-minutes-validation", (req, res) => {
 	const maxMinutes = req.envoy.payload.maxMinutes
 	if (!Number.isNaN(maxMinutes) && maxMinutes >= 0 && maxMinutes <= 180) {
@@ -11,25 +11,26 @@ app.post("/max-minutes-validation", (req, res) => {
 	} else {
 		res.status(400).json({ message: "Please enter a number between 0 - 180" })
 	}
-
-	// console.log(req.envoy.payload.maxMinutes)
 })
 
 app.post("/entry-sign-out", async (req, res) => {
-	const envoy = req.envoy // Envoy's middleware adds an "envoy" object to req.
+	const envoy = req.envoy
 	const job = envoy.job
-	const maxMinutes = envoy.meta.config.maxMinutes
+	const maxMinutes = envoy.meta.config.maxMinutes * 60000
 	const visitor = envoy.payload
-	const arrivalTime = new Date(visitor.attributes["signed-in-at"])
-	const departureTime = new Date(visitor.attributes["signed-out-at"])
+	const visitorName = visitor.attributes["full-name"]
+	const message = `Goodbye ${visitorName}!`
+	const arrivalTime = new Date(visitor.attributes["signed-in-at"]).getTime()
+	const departureTime = new Date(visitor.attributes["signed-out-at"]).getTime()
+	let totalTime = departureTime - arrivalTime
 
-	console.log(arrivalTime)
-	console.log(departureTime)
-	console.log(maxMinutes)
-	const message = `${goodbye} ${visitorName}!`
+	if (totalTime > maxMinutes) {
+		message = `${message}, "You have overstayed your booking"`
+	}
+
 	await job.attach({ label: "Goodbye", value: message })
 
-	res.send({ goodbye })
+	res.send({ message })
 })
 
 app.use(
