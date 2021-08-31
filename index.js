@@ -16,6 +16,7 @@ app.post("/max-minutes-validation", (req, res) => {
 })
 
 app.post("/entry-sign-out", async (req, res) => {
+	console.log(req.envoy)
 	const envoy = req.envoy
 	const job = envoy.job
 	const maxMinutes = envoy.meta.config.maxMinutes * 60000
