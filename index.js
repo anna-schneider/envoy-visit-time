@@ -6,7 +6,12 @@ app.use(middleware())
 //validate "validations"
 app.post("/max-minutes-validation", (req, res) => {
 	console.log(JSON.stringify(req, null, 4))
-	res.send()
+	res.send([
+		{
+			label: "Goodbye",
+			value: "Goodbye",
+		},
+	])
 
 	//Needs error msg?
 })
