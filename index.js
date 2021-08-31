@@ -1,8 +1,10 @@
 const express = require("express")
+const morgan = require("morgan")
 const { middleware, errorMiddleware } = require("@envoy/envoy-integrations-sdk")
 
 const app = express()
 app.use(middleware())
+app.use(morgan("dev"))
 
 app.post("/max-minutes-validation", (req, res) => {
 	const maxMinutes = req.envoy.payload.maxMinutes
