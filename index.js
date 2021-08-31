@@ -1,10 +1,8 @@
 const express = require("express")
-const morgan = require("morgan")
 const { middleware, errorMiddleware } = require("@envoy/envoy-integrations-sdk")
 
 const app = express()
 app.use(middleware())
-app.use(morgan("dev"))
 
 app.post("/max-minutes-validation", (req, res) => {
 	const maxMinutes = req.envoy.payload.maxMinutes
@@ -16,7 +14,6 @@ app.post("/max-minutes-validation", (req, res) => {
 })
 
 app.post("/entry-sign-out", async (req, res) => {
-	console.log(req.envoy)
 	const envoy = req.envoy
 	const job = envoy.job
 	const maxMinutes = envoy.meta.config.maxMinutes * 60000
@@ -25,7 +22,7 @@ app.post("/entry-sign-out", async (req, res) => {
 	const message = `Goodbye ${visitorName}!`
 	const arrivalTime = new Date(visitor.attributes["signed-in-at"]).getTime()
 	const departureTime = new Date(visitor.attributes["signed-out-at"]).getTime()
-	let totalTime = departureTime - arrivalTime
+	const totalTime = departureTime - arrivalTime
 
 	if (totalTime > maxMinutes) {
 		message = `${message}, "You have overstayed your booking"`
