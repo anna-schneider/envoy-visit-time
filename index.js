@@ -5,17 +5,27 @@ const app = express()
 app.use(middleware())
 //validate "validations"
 app.post("/max-minutes-validation", (req, res) => {
-	res.status(400).json({ message: "You done messed up now" })
-	// res.send({ maxMinutes: req.envoy.payload.maxMessage })
+	const maxMinutes = req.envoy.payload.maxMinutes
+	if (!Number.isNaN(maxMinutes) && maxMinutes >= 0 && maxMinutes <= 180) {
+		res.send({ maxMinutes })
+	} else {
+		res.status(400).json({ message: "Please enter a number between 0 - 180" })
+	}
+
 	// console.log(req.envoy.payload.maxMinutes)
 })
 
 app.post("/entry-sign-out", async (req, res) => {
 	const envoy = req.envoy // Envoy's middleware adds an "envoy" object to req.
 	const job = envoy.job
-	const maxMinutes = envoy.meta.config.MAXMINUTES
+	const maxMinutes = envoy.meta.config.maxMinutes
 	const visitor = envoy.payload
-	const visitorName = visitor.attributes["full-name"]
+	const arrivalTime = new Date(visitor.attributes["signed-in-at"])
+	const departureTime = new Date(visitor.attributes["signed-out-at"])
+
+	console.log(arrivalTime)
+	console.log(departureTime)
+	console.log(maxMinutes)
 	const message = `${goodbye} ${visitorName}!`
 	await job.attach({ label: "Goodbye", value: message })
 
