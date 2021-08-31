@@ -5,14 +5,15 @@ const app = express()
 app.use(middleware())
 //validate "validations"
 app.post("/max-minutes-validation", (req, res) => {
+	console.log(JSON.stringify(req, null, 4))
 	res.send()
+
 	//Needs error msg?
 })
 
 app.post("/entry-sign-out", async (req, res) => {
 	const envoy = req.envoy // Envoy's middleware adds an "envoy" object to req.
 	const job = envoy.job
-	// const goodbye = envoy.meta.config.GOODBYE
 	const maxMinutes = envoy.meta.config.MAXMINUTES
 	const visitor = envoy.payload
 	const visitorName = visitor.attributes["full-name"]
