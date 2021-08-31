@@ -5,7 +5,6 @@ const app = express()
 app.use(middleware())
 //validate "validations"
 app.post("/max-minutes-validation", (req, res) => {
-	// console.log(JSON.stringify(req, null, 4))
 	res.send([
 		{
 			label: "Goodbye",
@@ -13,7 +12,7 @@ app.post("/max-minutes-validation", (req, res) => {
 		},
 	])
 
-	//Needs error msg?
+	console.log(request.envoy.meta.config.maxMinutes)
 })
 
 app.post("/entry-sign-out", async (req, res) => {
