@@ -4,7 +4,7 @@ const { middleware, errorMiddleware } = require("@envoy/envoy-integrations-sdk")
 const app = express()
 app.use(middleware())
 //validate "validations"
-app.post("/max-minutes-validation", (req, res) => {
+app.post("/max-minutes-validations", (req, res) => {
 	console.log(JSON.stringify(req, null, 4))
 	res.send([
 		{
