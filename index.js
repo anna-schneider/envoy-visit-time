@@ -5,14 +5,9 @@ const app = express()
 app.use(middleware())
 //validate "validations"
 app.post("/max-minutes-validation", (req, res) => {
-	res.send([
-		{
-			label: "Goodbye",
-			value: "Goodbye",
-		},
-	])
+	res.send({ maxMinutes: req.envoy.payload.maxMessage })
 
-	console.log(req.envoy.payload.maxMinutes)
+	// console.log(req.envoy.payload.maxMinutes)
 })
 
 app.post("/entry-sign-out", async (req, res) => {
